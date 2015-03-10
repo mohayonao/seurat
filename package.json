@@ -1,0 +1,22 @@
+{
+  "name": "seurat",
+  "description": "utility to generate a braille text from an image",
+  "version": "0.0.0",
+  "author": "mohayonao <mohayonao@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/mohayonao/seurat/issues"
+  },
+  "files": [
+    "package.json",
+    "README.md",
+    "lib"
+  ],
+  "keywords": [],
+  "licenses": "MIT",
+  "main": "index.js",
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohayonao/seurat.git"
+  }
+}
