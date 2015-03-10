@@ -1,23 +1,13 @@
 {
   "name": "seurat",
   "description": "utility to generate a braille text from an image",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "mohayonao <mohayonao@gmail.com>",
+  "bin": {
+    "seurat": "./lib/cli.js"
+  },
   "bugs": {
     "url": "https://github.com/mohayonao/seurat/issues"
-  },
-  "files": [
-    "package.json",
-    "README.md",
-    "lib"
-  ],
-  "keywords": [],
-  "licenses": "MIT",
-  "main": "index.js",
-  "preferGlobal": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mohayonao/seurat.git"
   },
   "dependencies": {
     "gm": "^1.17.0",
@@ -32,10 +22,23 @@
     "mocha": "^2.2.1",
     "power-assert": "^0.10.2"
   },
+  "files": [
+    "package.json",
+    "README.md",
+    "lib"
+  ],
+  "keywords": [],
+  "licenses": "MIT",
+  "main": "lib/seurat.js",
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohayonao/seurat.git"
+  },
   "scripts": {
-   "build": "babel src --out-dir lib",
-   "lint": "jshint src test --reporter node_modules/jshint-stylish/stylish.js",
-   "test": "mocha --require espower-babel/guess",
-   "travis": "npm run lint && npm run test"
- }
+    "build": "babel src --out-dir lib",
+    "lint": "jshint src test --reporter node_modules/jshint-stylish/stylish.js",
+    "test": "mocha --require espower-babel/guess",
+    "travis": "npm run lint && npm run test"
+  }
 }
