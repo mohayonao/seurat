@@ -1,5 +1,7 @@
 "use strict";
 
+import "babel/polyfill";
+
 import gm from "gm";
 import pngparse from "pngparse";
 import promisify from "./promisify";
@@ -44,20 +46,6 @@ let createParams = (opts = {}, ratio = 1) => {
   return result;
 };
 
-let readImage = (src) => {
-  return Promise.resolve(gm(src)).then((im) => {
-    return promisify(im, "size").then((size) => {
-      return [ im, size ];
-    });
-  });
-};
-
-let toPng = (im) => {
-  return promisify(im, "toBuffer", "png").then((buffer) => {
-    return promisify(pngparse, "parse", buffer);
-  });
-};
-
 let brailleCodeAt = (png, x, y) => {
   let num = 0;
 
@@ -73,30 +61,31 @@ let brailleCodeAt = (png, x, y) => {
   return num;
 };
 
-export let convert = (src, opts) => {
-  return readImage(src).then(([ im, size ]) => {
-    let params = createParams(opts, size.height / size.width);
+export async function convert(src, opts) {
+  let im = gm(src);
+  let size = await promisify(im, "size");
+  let params = createParams(opts, size.height / size.width);
 
-    im = im.resize(params.width, params.height, "!");
-    im = im.threshold(`${params.threshold}%`);
+  im = im.resize(params.width, params.height, "!");
+  im = im.threshold(`${params.threshold}%`);
 
-    if (params.invert) {
-      im = im.negative();
+  if (params.invert) {
+    im = im.negative();
+  }
+
+  let buffer = await promisify(im, "toBuffer", "png");
+  let png = await promisify(pngparse, "parse", buffer);
+
+  let result = "";
+
+  for (let y = 0; y < png.height; y += 4) {
+    for (let x = 0; x < png.width; x += 2) {
+      result += brailleChars.charAt(brailleCodeAt(png, x, y));
     }
+    result += "\n";
+  }
 
-    return im;
-  }).then(toPng).then((png) => {
-    let result = "";
-
-    for (let y = 0; y < png.height; y += 4) {
-      for (let x = 0; x < png.width; x += 2) {
-        result += brailleChars.charAt(brailleCodeAt(png, x, y));
-      }
-      result += "\n";
-    }
-
-    return result.trim();
-  });
+  return result.trim();
 };
 
 export default convert;
