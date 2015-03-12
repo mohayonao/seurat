@@ -1,7 +1,7 @@
 {
   "name": "seurat",
   "description": "utility to generate a braille text from an image",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "mohayonao <mohayonao@gmail.com>",
   "bin": {
     "seurat": "./lib/cli.js"
