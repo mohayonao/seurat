@@ -63,7 +63,7 @@ let brailleCodeAt = (png, x, y) => {
 
 export async function convert(src, opts) {
   let im = gm(src);
-  let size = await prominence(im, "size");
+  let size = await prominence(im).size();
   let params = createParams(opts, size.height / size.width);
 
   im = im.resize(params.width, params.height, "!");
@@ -73,8 +73,8 @@ export async function convert(src, opts) {
     im = im.negative();
   }
 
-  let buffer = await prominence(im, "toBuffer", [ "png" ]);
-  let png = await prominence(pngparse, "parse", [ buffer ]);
+  let buffer = await prominence(im).toBuffer("png");
+  let png = await prominence(pngparse).parse(buffer);
 
   let result = "";
 
